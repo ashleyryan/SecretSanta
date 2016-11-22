@@ -1,0 +1,16 @@
+{
+  "name": "secret-santa",
+  "version": "0.0.0",
+  "description": "SecretSanta",
+  "main": "app.js",
+  "author": {
+    "name": "Ashley Ryan"
+  },
+  "dependencies": {
+    "command-line-args": "^3.0.3",
+    "csv-parse": "^1.1.7",
+    "jsonfile": "^2.4.0",
+    "nodemailer": "^2.6.4",
+    "underscore": "^1.8.3"
+  }
+}
