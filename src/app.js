@@ -94,7 +94,7 @@ var sendEmails = (people, smtp) => {
   var mailOptions = {
     from: '"Secret Santa" ' + smtp.auth.user,
     to: '',
-    subject: 'Prudden Family Secret Santa Match!'
+    subject: 'Secret Santa Match!'
   };
 
   people.forEach(p => {
@@ -105,7 +105,7 @@ var sendEmails = (people, smtp) => {
     mailOptions.to = p.Email;
     mailOptions.html = `<b>${p.Name}, you've been matched!</b><br/><br/>
       Your secret santa giftee is: ${p.Match.Name}.<br/><br/>
-      Note: This email was automated. Ashley doesn't know who you have.`;
+      Note: This email was automated.`;
 
     transporter.sendMail(mailOptions, function(error, info){
       if(error){
