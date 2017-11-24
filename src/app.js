@@ -12,7 +12,8 @@ const options = commandLineArgs([
   { name: 'src', type: String, multiple: false, defaultOption: true },
   { name: 'email', alias: 'e', type: Boolean },
   { name: 'debug', alias: 'd', type: Boolean },
-  { name: 'smtp', type: String} //https://nodemailer.com/2-0-0-beta/setup-smtp/
+  { name: 'smtp', type: String}, //https://nodemailer.com/2-0-0-beta/setup-smtp/
+  { name: 'testemail', alias: 't', type: Boolean, defaultOption: false },
 ]);
 
 if(!options.src) {
@@ -45,7 +46,7 @@ var parser = parse({columns: ['Name', 'Email', 'SO']}, (err, data) => {
         console.log(err);
         return;
       }
-      sendEmails(matches, obj);
+      sendEmails(matches, obj, options.testemail);
     });
   }
 });
@@ -83,7 +84,7 @@ var makeMatches = (people) => {
   return people;
 };
 
-var sendEmails = (people, smtp) => {
+var sendEmails = (people, smtp, testEmail) => {
   if(!smtp) {
     console.log("ERR: No smtp settings specified");
     return;
@@ -96,6 +97,21 @@ var sendEmails = (people, smtp) => {
     to: '',
     subject: 'Secret Santa Match!'
   };
+
+  if(testEmail) {
+    mailOptions.to = smtp.auth.user;
+    mailOptions.html = 'test';
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if(error){
+        console.log(error);
+        return;
+      }
+      console.log('Message sent: ' + info.response);
+    });
+
+    return;
+  }
 
   people.forEach(p => {
     if(options.debug) {
